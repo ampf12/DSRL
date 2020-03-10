@@ -16,7 +16,7 @@ CORS(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World! This is the Disaster Resource Locator app'
+    return 'Hello World! This is the Disaster Resource Locator app.'
 
 
 if __name__ == '__main__':
