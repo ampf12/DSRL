@@ -20,6 +20,12 @@ class ConsumerHandler:
         result['cid'] = row[3]
         return result
 
+    def build_resourceReservation_dict(self, row):
+        result = {}
+        result['rid'] = row[0]
+        result['cid'] = row[1]
+        return result
+
     def getAllConsumers(self):
         # Creates the list of all consumers calling the DAO which creates the query,
         # this returns a list. The list is then jsonified to be used as a response.
@@ -55,4 +61,10 @@ class ConsumerHandler:
     def makeRequestForResources(self, form):
         dao = ConsumerDAO()
         rid = dao.insertRequest('rid', 'rtype', 'rquantity','cid')
+        return rid
+
+    @classmethod
+    def makeReservationForResources(self, form):
+        dao = ConsumerDAO()
+        rid = dao.insertReservation('rid','cid')
         return rid

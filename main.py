@@ -88,6 +88,12 @@ def makeRequestForResource():
     else:
         return jsonify(Error = "Method not allowed")
 
+@app.route('/DSLR/consumers/reservation', methods=['POST'])
+def makeReservationForResource():
+    if request.method == "POST":
+        return ConsumerHandler.makeReservationForResources(request.form)
+    else:
+        return jsonify(Error = "Method not allowed")
 
 # Admin
     # TODO

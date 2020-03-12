@@ -22,3 +22,6 @@ class ConsumerDAO:
     def insertRequest(self, rid, rtype, rquantity,cid):
         # Create query to insert a request for a resource into the DB
         return jsonify("Returns the id of the request inserted into the DB")
+
+    def insertReservation(self, rid, cid):
+        return jsonify("Returns the id of the reservation of resources inserted into the DB")
