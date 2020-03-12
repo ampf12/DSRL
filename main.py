@@ -2,6 +2,8 @@
 calling the proper handler objects to process the request.
 '''
 from flask import Flask, jsonify, request
+
+from Handler.consumerHandler import ConsumerHandler
 from Handler.supplierHandler import SupplierHandler
 
 # Import Cross-Origin Resource Sharing to enable
@@ -55,6 +57,37 @@ def getResourcesBySuplierId(sid):
 # Consumer
     # info of
     # Post order in Order table
+@app.route('/DSLR/consumers', methods=['GET', 'POST'])
+def getAllConsumers():
+    if request.method == 'GET':
+        if request.args:
+            return ConsumerHandler().searchConsumers(request.args)
+        else:
+            return ConsumerHandler().getAllConsumers()
+    elif request.method == 'POST':
+        return ConsumerHandler().insertConsumer(request.form)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSLR/consumers/<int:sid>', methods=['GET'])
+def getConsumerById(sid):
+    if request.method == 'GET':
+        return ConsumerHandler().getConsumerById(sid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+    # Get resources that consumer with id {id} provides
+@app.route('/DSLR/consumers/<int:sid>/resources')
+def getResourcesByConsumerId(sid):
+    return ConsumerHandler().getResourcesByConsumerId(sid)
+
+@app.route('/DSLR/consumers/request', methods=['POST'])
+def makeRequestForResource():
+    if request.method == "POST":
+        return ConsumerHandler.makeRequestForResources(request.form)
+    else:
+        return jsonify(Error = "Method not allowed")
+
 
 # Admin
     # TODO
