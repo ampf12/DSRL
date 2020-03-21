@@ -96,9 +96,104 @@ def makeReservationForResource():
         return jsonify(Error = "Method not allowed")
 
 # Admin
-    # TODO
+@app.route('/DSLR/admin/suppliers', methods=['GET', 'POST'])
+def getAllSuppliers():
+    if request.method == 'GET':
+        if request.args:
+            return AdministratorHandler().searchSuppliers(request.args)
+        else:
+            return AdministratorHandler().getAllSuppliers()
+    elif request.method == 'POST':
+        return AdministratorHandler().insertSupplier(request.form)
+    else:
+        return jsonify(Error = "Method not allowed"), 405
 
+@app.route('/DSLR/admin/consumers', methods=['GET', 'POST'])
+def getAllConsumers():
+    if request.method == 'GET':
+        if request.args:
+            return AdministratorHandler().searchConsumers(request.args)
+        else:
+            return AdministratorHandler().getAllConsumers()
+    elif request.method == 'POST':
+        return AdministratorHandler().insertConsumer(request.form)
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
+@app.route('/DSLR/admin/suppliers/<int:sid>', methods=['GET'])
+def getSupplierById(sid):
+    if request.method == 'GET':
+        return AdministratorHandler().getSupplierById(sid)
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/DSLR/admin/consumers/<int:cid>', methods=['GET'])
+def getConsumerById(cid):
+    if request.method == 'GET':
+        return AdministratorHandler().getConsumerById(cid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+# Resource
+@app.route('/DSLR/resources', methods=['GET'])
+def getAllResources():
+    if request.method == 'GET':
+        if request.args:
+            return ResourceHandler().searchResource(request.args)
+        else:
+            return ResourceHandler().getAllResources()
+    elif request.method == 'POST':
+        return ResourceHandler().insertResource(request.form)
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/DSLR/resources/<int:rid>', methods=['GET'])
+def getResourceById(rid):
+    if request.method == 'GET':
+        return ResourceHandler().getResourceById(rid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSLR/resources/<int:sid>', methods=['GET'])
+def getResourceBySupplierId(sid):
+    if request.method == 'GET':
+        return ResourceHandler().getResourceBySupplierId(sid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+# Orders
+@app.route('/DSLR/orders', methods=['GET'])
+def getAllOrders():
+    if request.method == 'GET':
+        if request.args:
+            return OrderHandler().searchOrder(request.args)
+        else:
+            return OrderHandler().getAllOrders()
+    elif request.method == 'POST':
+        return OrderHandler().insertOrder(request.form)
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/DSLR/orders/<int:oid>', methods=['GET'])
+def getOrderById(oid):
+    if request.method == 'GET':
+        return OrderHandler().getOrderById(oid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSLR/orders/<int:rid>', methods=['GET'])
+def getOrderByResourceId(rid):
+    if request.method == 'GET':
+        return OrderHandler().getOrderByResourceId(rid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSLR/orders/<int:sid>', methods=['GET'])
+def getOrderBySupplierId(sid):
+    if request.method == 'GET':
+        return OrderHandler().getOrderBySupplierId(sid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
 
 if __name__ == '__main__':

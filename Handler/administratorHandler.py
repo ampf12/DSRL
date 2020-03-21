@@ -52,10 +52,18 @@ class AdministratorHandler:
 
         return dao.getConsumerByID(cid)
 
+    def searchSuppliers(self, args):
+        return "Search by supplier with a specified parameter"
 
+    def insertSupplier(self, form):
+        dao = AdministratorDAO()
+        sid = dao.insert('sname', 'scity', 'sphone')
+        return sid
 
+    def searchConsumers(self, args):
+        return "Search by consumer with a specified parameter"
 
-
-
-
-
+    def insertConsumer(self, form):
+        dao = AdministratorDAO()
+        sid = dao.insertConsumer('sname', 'scity', 'sphone')
+        return sid
