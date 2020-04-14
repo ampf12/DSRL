@@ -1,6 +1,6 @@
 from flask import jsonify
 
-class orderDAO:
+class OrderDAO:
 
     def getAllOrders(self):
         #Build query selecting all orders

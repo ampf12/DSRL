@@ -1,6 +1,7 @@
-from DAO.orderDAO import orderDAO
+from DAO.orderDAO import OrderDAO
 
-class orderHandler:
+
+class OrderHandler:
 
     def build_order_dic(self, row):
         result = {}
@@ -16,50 +17,47 @@ class orderHandler:
         # Creates the list of all orders calling the DAO which creates the query,
         # this returns a list. This list is then jsonified to be used as a response.
 
-        dao = orderDAO()
+        dao = OrderDAO()
 
         #TODO Implemented in later phase
-
         return dao.getAllOrders()
 
 
-    def getOrderByID(self, oid):
+    def getOrderById(self, oid):
 
         #Returns the supplier based on the sid provided
 
-        dao = orderDAO()
+        dao = OrderDAO()
 
         #TODO Implemented in later phase
-
         return dao.getOrderByID(oid)
 
-    def getOrderByResourceID(self,rid):
+    def getOrderByResourceId(self,rid):
 
         #Returns the order based on the rid provided
 
-        dao = orderDAO()
+        dao = OrderDAO()
 
         #TODO Implemented in later phase
-
         return dao.getOrderByResourceId(rid)
 
-    def getOrderBySupplierID(self,sid):
+    def getOrderBySupplierId(self,sid):
 
         #Returns the order based on the sid provided
 
-        dao = orderDAO()
+        dao = OrderDAO()
 
         #TODO Implemented in later phase
-
         return dao.getOrderBySupplierId(sid)
 
+    # What?
     def searchOrder(self, args):
         return "Search by order with a specified parameter"
 
     def insertOrder(self, form):
         dao = OrderDAO()
         sid = dao.insert('rtype')
-        return oid
+        return "Order inserted, return id"
 
 
 

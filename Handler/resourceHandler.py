@@ -1,6 +1,7 @@
-from DAO.resourceDAO import resourceDAO
+from DAO.resourceDAO import ResourceDAO
 
-class resourceHandler:
+
+class ResourceHandler:
 
     def build_resource_dic(self, row):
         result = {}
@@ -15,31 +16,28 @@ class resourceHandler:
         # Creates the list of all resources calling the DAO which creates the query,
         # this returns a list. This list is then jsonified to be used as a response.
 
-        dao = resourceDAO()
+        dao = ResourceDAO()
 
         #TODO Implemented in later phase
-
         return dao.getAllResources()
 
 
-    def getResourceByID(self,rid):
+    def getResourceById(self,rid):
 
         #Returns the resource based on the rid provided
 
-        dao = resourceDAO()
+        dao = ResourceDAO()
 
         #TODO Implemented in later phase
-
         return dao.getResourceByID(rid)
 
-    def getResourceBySupplierID(self,sid):
+    def getResourceBySupplierId(self,sid):
 
         #Returns the resource based on the sid provided
 
-        dao = resourceDAO()
+        dao = ResourceDAO()
 
         #TODO Implemented in later phase
-
         return dao.getResourceBySupplierId(sid)
 
     def searchResource(self, args):
@@ -47,5 +45,5 @@ class resourceHandler:
 
     def insertResource(self, form):
         dao = ResourceDAO()
-        sid = dao.insert('rtype')
-        return rid
+        rid = dao.insert('rtype')
+        return "Insertion of Resource (?)"
