@@ -1,48 +1,43 @@
+from flask import jsonify
 from DAO.resourceDAO import ResourceDAO
-
-
+from Handler import supplierHandler
 class ResourceHandler:
-
     def build_resource_dic(self, row):
         result = {}
         result['rid'] = row[0]
         result['rtype'] = row[1]
         result['rquantity'] = row[2]
-
         return result
-
     def getAllResources(self):
-
         # Creates the list of all resources calling the DAO which creates the query,
         # this returns a list. This list is then jsonified to be used as a response.
-
         dao = ResourceDAO()
-
-        #TODO Implemented in later phase
-        return dao.getAllResources()
-
-
+        resources_list = dao.getAllResources()
+        result_list = []
+        for row in resources_list:
+            result = self.build_resource_dic(row)
+            result_list.append(result)
+        return jsonify(Resources=result_list)
     def getResourceById(self,rid):
-
         #Returns the resource based on the rid provided
-
         dao = ResourceDAO()
-
-        #TODO Implemented in later phase
-        return dao.getResourceByID(rid)
-
-    def getResourceBySupplierId(self,sid):
-
+        resources_list = dao.getResourceByID(rid)
+        result_list = []
+        for row in resources_list:
+            result = self.build_resource_dic(row)
+            result_list.append(result)
+        return jsonify(Resource=result_list)
+    def getResourceBySupplierId(self, sid):
         #Returns the resource based on the sid provided
-
         dao = ResourceDAO()
-
-        #TODO Implemented in later phase
-        return dao.getResourceBySupplierId(sid)
-
+        resources_list = dao.getResourceBySupplierId(sid)
+        result_list = []
+        for row in resources_list:
+            result = self.build_resource_dic(row)
+            result_list.append(result)
+        return jsonify(Resource=result_list)
     def searchResource(self, args):
         return "Search by resource with a specified parameter"
-
     def insertResource(self, form):
         dao = ResourceDAO()
         rid = dao.insert('rtype')
