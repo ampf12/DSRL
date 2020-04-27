@@ -35,7 +35,7 @@ class SupplierDAO:
     def getResourcesBySupplierId(self, sid):
         # Create query to select all info resources that a supplier with a given ID has
         cursor = self.conn.cursor()
-        query = "select * from Resources natural inner join Supplier where Supplier.sid = %s;" % (sid)
+        query = "select * from Resources natural inner join Supplies where Supplies.sid = %s;" % (sid)
         cursor.execute(query)
         result = []
         for row in cursor:
