@@ -1,19 +1,46 @@
 from flask import jsonify
-
+import psycopg2
+from Config.DbConfig import pg_config
 
 class SupplierDAO:
 
+    def __init__(self):
+        connection_url = "dbname=%s user=%s password=%s host = ec2-52-202-146-43.compute-1.amazonaws.com" % (
+        pg_config['dbname'],
+        pg_config['user'],
+        pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
+
     def getAllSuppliers(self):
         # Build query selecting all suppliers
-        return jsonify("A list of all suppliers is returned")
+        # return jsonify("A list of all suppliers is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Person natural inner join Supplier;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getSupplierById(self, sid):
         # Build query to select a supplier by its ID
-        return jsonify("A supplier with a given ID is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Person natural inner join Supplier where Supplier.sid = %s;" % (sid)
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getResourcesBySupplierId(self, sid):
         # Create query to select all info resources that a supplier with a given ID has
-        return jsonify("A list of resources for the supplier with given ID is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Resources natural inner join Supplier where Supplier.sid = %s;" % (sid)
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def insert(self, sname, scity, sphone):
         # Create query to insert a supplier into the DB
