@@ -84,18 +84,24 @@ def makeReservationForResource():
     else:
         return jsonify(Error="Method not allowed")
 ################################# Admin ####################################################
-@app.route('/DSLR/admin/suppliers', methods=['GET', 'POST'])
-def adminGetAllSuppliers():
-    return getAllSuppliers()
-@app.route('/DSLR/admin/consumers', methods=['GET', 'POST'])
-def adminGetAllConsumers():
-    return getAllConsumers()
-@app.route('/DSLR/admin/suppliers/<int:sid>', methods=['GET'])
-def adminGetSupplierById(sid):
-    return getSupplierById(sid)
-@app.route('/DSLR/admin/consumers/<int:cid>', methods=['GET'])
-def adminGetConsumerById(cid):
-    return getConsumerById(cid)
+@app.route('/DSLR/administrators', methods=['GET', 'POST'])
+def getAllAdministratorsrs():
+    if request.method == 'GET':
+        if request.args:
+            return AdministratorHandler().getAllAdministrators(request.args)
+        else:
+            return AdministratorHandler().getAllAdministrators()
+    elif request.method == 'POST':
+        return AdministratorHandler().insertAdministrator(request.form)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSLR/administrators/<int:sid>', methods=['GET'])
+def getAdministratorById(sid):
+    if request.method == 'GET':
+        return AdministratorHandler().getAdministratorById(sid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
 ##################  Resources  #########################################
 @app.route('/DSLR/resources', methods=['GET', 'POST'])
 def getAllResources():

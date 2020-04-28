@@ -5,19 +5,19 @@ from DAO.supplierDAO import SupplierDAO
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
-        result['Supplier ID'] = row[0]
+        result['Supplier ID'] = row[4]
         result['First Name'] = row[1]
         result['Last Name'] = row[2]
         result['Phone'] = row[3]
-        result['Person ID'] = row[4]
+        result['Person ID'] = row[0]
         result['Company Name'] = row[5]
         return result
 
     def build_resource_dict(self, row):
         result = {}
         result['rid'] = row[0]
-        result['ptype'] = row[1]
-        result['pquantity'] = row[2]
+        result['ptype'] = row[2]
+        result['pquantity'] = row[1]
         result['pprice'] = row[3]
         result['platitude'] = row[4]
         result['plongitude'] = row[5]

@@ -1,10 +1,36 @@
+import psycopg2
 from flask import jsonify
 
-class AdministratorDAO:
+from Config.DbConfig import pg_config
 
-    def getAllSuppliers(self):
+
+class AdministratorDAO:
+    def __init__(self):
+        connection_url = "dbname=%s user=%s password=%s host = ec2-52-202-146-43.compute-1.amazonaws.com" % (
+            pg_config['dbname'],
+            pg_config['user'],
+            pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
+
+    def getAllAdministrators(self):
         #Build query selecting all suppliers
-        return jsonify("A list of all suppliers is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Person natural inner join Administrator;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAdministratorById(self, sid):
+        # Build query to select a supplier by its ID
+        cursor = self.conn.cursor()
+        query = "select * from Person natural inner join Administrator where Administrator.aid = %s;" % (sid)
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getAllConsumers(self):
         #Build query selecting all consumers

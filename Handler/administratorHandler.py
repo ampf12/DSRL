@@ -1,25 +1,42 @@
+from flask import jsonify
+
 from DAO.administratorDAO import AdministratorDAO
 
 class AdministratorHandler:
 
-    def build_administrator_dic(self, row):
+    def build_administrator_dict(self, row):
         result = {}
-        result['aid'] = row[0]
-        result['afirst_name'] = row[1]
-        result['alast_name'] = row[2]
+        result['Administrator ID'] = row[4]
+        result['First Name'] = row[1]
+        result['Last Name'] = row[2]
+        result['Phone Number'] = row[3]
+        result['Person ID'] = row[0]
 
         return result
 
-    def getAllSuppliers(self):
+    def getAllAdministrators(self):
 
         # Creates the list of all suppliers calling the DAO which creates the queary,
         # this returns a list. This list is then jsonified to be used as a response.
 
         dao = AdministratorDAO()
+        administrators_list = dao.getAllAdministrators()
+        result_list = []
+        for row in administrators_list:
+            result = self.build_administrator_dict(row)
+            result_list.append(result)
+        return jsonify(Administrators=result_list)
 
-        #TODO Implemented in later phase
-
-        return dao.getAllSuppliers()
+    def getAdministratorById(self, sid):
+        # Creates the list of the supplier with the given ID calling the DAO which creates the query,
+        # this returns a list. The list is then jsonified to be used as a response.
+        dao = AdministratorDAO()
+        administrators_list = dao.getAdministratorById(sid)
+        result_list = []
+        for row in administrators_list:
+            result = self.build_administrator_dict(row)
+            result_list.append(result)
+        return jsonify(Administrator=result_list)
 
     def getAllConsumers(self):
 
@@ -56,6 +73,11 @@ class AdministratorHandler:
         return "Search by supplier with a specified parameter"
 
     def insertSupplier(self, form):
+        dao = AdministratorDAO()
+        sid = dao.insert('sname', 'scity', 'sphone')
+        return sid
+
+    def insertAdministrator(self, form):
         dao = AdministratorDAO()
         sid = dao.insert('sname', 'scity', 'sphone')
         return sid

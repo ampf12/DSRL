@@ -4,9 +4,10 @@ from Handler import supplierHandler
 class ResourceHandler:
     def build_resource_dic(self, row):
         result = {}
-        result['rid'] = row[0]
-        result['rtype'] = row[1]
-        result['rquantity'] = row[2]
+        result['Resource ID'] = row[0]
+        result['Type'] = row[2]
+        result['Quantity'] = row[1]
+        result['Price'] = row[3]
         return result
     def getAllResources(self):
         # Creates the list of all resources calling the DAO which creates the query,
@@ -18,6 +19,7 @@ class ResourceHandler:
             result = self.build_resource_dic(row)
             result_list.append(result)
         return jsonify(Resources=result_list)
+
     def getResourceById(self,rid):
         #Returns the resource based on the rid provided
         dao = ResourceDAO()
@@ -27,6 +29,7 @@ class ResourceHandler:
             result = self.build_resource_dic(row)
             result_list.append(result)
         return jsonify(Resource=result_list)
+
     def getResourceBySupplierId(self, sid):
         #Returns the resource based on the sid provided
         dao = ResourceDAO()
