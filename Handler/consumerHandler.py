@@ -1,53 +1,63 @@
 from flask import jsonify
 from DAO.consumerDao import ConsumerDAO
 
+
 class ConsumerHandler:
     def build_consumer_dict(self, row):
         result = {}
-        result['cid'] = row[0]
-        result['cfirst_name'] = row[1]
-        result['clast_name'] = row[2]
-        result['cphone'] = row[3]
-        result['caddress'] = row[4]
-        result['cage'] = row[5]
-        return result
-
-    def build_resourceRequest_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
-        result['rtype'] = row[1]
-        result['rquantity'] = row[2]
-        result['cid'] = row[3]
-        return result
-
-    def build_resourceReservation_dict(self, row):
-        result = {}
-        result['rid'] = row[0]
+        result['pid'] = row[0]
         result['cid'] = row[1]
+        result['cfirst_name'] = row[2]
+        result['clast_name'] = row[3]
+        result['cphone'] = row[4]
+        return result
+
+    def build_orders_dict(self, row):
+        result = {}
+        result['pid'] = row[0]
+        result['cid'] = row[1]
+        result['oid'] = row[2]
+        result['otyper'] = row[3]
+        result['oquantity'] = row[4]
+        result['pfirst_name'] = row[5]
+        result['plast_name'] = row[6]
+        result['pphone_number'] = row[7]
         return result
 
     def getAllConsumers(self):
         # Creates the list of all consumers calling the DAO which creates the query,
         # this returns a list. The list is then jsonified to be used as a response.
         dao = ConsumerDAO()
-        # TODO Implemented in later phases
-        return dao.getAllConsumers()
+        consumers_list = dao.getAllConsumers()
+        result_list = []
+        for row in consumers_list:
+            result = self.build_consumer_dict(row)
+            result_list.append(result)
+        return jsonify(Consumer=result_list)
 
-    def getConsumerById(self, sid):
+    def getConsumerById(self, cid):
         # Creates the list of the consumer with the given ID calling the DAO which creates the query,
         # this returns a list. The list is then jsonified to be used as a response.
-
         dao = ConsumerDAO()
-        # TODO Implemented in later phases
-        return dao.getConsumerById(sid)
+        consumers_list = dao.getConsumerById(cid)
+        result_list = []
+        for row in consumers_list:
+            result = self.build_consumer_dict(row)
+            result_list.append(result)
+        return jsonify(Consumer=result_list)
 
-    def getResourcesByConsumerId(self, sid):
+    def getOrdersByConsumerId(self, cid):
         # Creates the list of the resources the consumer needs calling the DAO which creates the query,
         # this returns a list. The list is then jsonified to be used as a response.
-
         dao = ConsumerDAO()
-        # TODO Implemented in later phases
-        return dao.getResourcesByConsumerId(sid)
+        orders_list = dao.getOrdersByConsumerId(cid)
+        result_list = []
+        for row in orders_list:
+            result = self.build_orders_dict(row)
+            result_list.append(result)
+        return jsonify(Orders=result_list)
+
+###################################################################
 
     def searchConsumers(self, args):
         return "Search by consumer with a specified parameter"

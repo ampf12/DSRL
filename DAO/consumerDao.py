@@ -1,25 +1,54 @@
+import psycopg2
 from flask import jsonify
+from Config.DbConfig import pg_config
 
 
 class ConsumerDAO:
 
+    def __init__(self):
+        connection_url = "dbname=%s user=%s password=%s host = ec2-52-202-146-43.compute-1.amazonaws.com" % (
+            pg_config['dbname'],
+            pg_config['user'],
+            pg_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
+
     def getAllConsumers(self):
         # Build query selecting all consumers
-        return jsonify("A list of all consumers is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Consumer natural inner join Person;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getConsumerById(self, sid):
+    def getConsumerById(self, cid):
         # Build query to select a consumer by its ID
-        return jsonify("A consumer with a given ID is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Consumer natural inner join Person where Consumer.cid = %s;" % cid
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-    def getResourcesByConsumerId(self, sid):
-        # Create query to select all info resources that a supplier with a given ID has
-        return jsonify("A list of resources needed by a consumer with the given ID is returned")
+    def getOrdersByConsumerId(self, cid):
+        # Create query to select the orders plaaced by a consumer with given id
+        cursor = self.conn.cursor()
+        query = "select * from Orders natural inner join Consumer natural inner join Person " \
+                "where Consumer.cid = %s;" % cid
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    ###############################################################################
 
     def insertConsumer(self, sname, scity, sphone):
-        # Create query to insert a supplier into the DB
         return jsonify("Returns the id of the consumer inserted into the DB")
 
-    def insertRequest(self, rid, rtype, rquantity,cid):
+    def insertRequest(self, rid, rtype, rquantity, cid):
         # Create query to insert a request for a resource into the DB
         return jsonify("Returns the id of the request inserted into the DB")
 
