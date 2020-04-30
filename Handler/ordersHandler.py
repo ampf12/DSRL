@@ -8,9 +8,9 @@ class OrdersHandler:
     def build_orders_dict(self, row):
         result = {}
         result['Order ID'] = row[0]
-        result['Type'] = row[1]
-        result['Quantity'] = row[2]
-        result['Consumer ID'] = row[3]
+        result['Resource ID'] = row[1]
+        result['Consumer ID'] = row[2]
+        result['Quantity'] = row[3]
         return result
 
     def build_consumer_dict(self, row):
