@@ -31,7 +31,7 @@ def hello_world():
 # Get resource of supplier with {id}
 
 # Post new supplier or Get supplier info by  (all, id, name/company)
-@app.route('/DSLR/suppliers', methods=['GET', 'POST'])
+@app.route('/DSRL/suppliers', methods=['GET', 'POST'])
 def getAllSuppliers():
     if request.method == 'GET':
         if request.args:
@@ -44,7 +44,7 @@ def getAllSuppliers():
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/suppliers/<int:sid>', methods=['GET'])
+@app.route('/DSRL/suppliers/<int:sid>', methods=['GET'])
 def getSupplierById(sid):
     if request.method == 'GET':
         return SupplierHandler().getSupplierById(sid)
@@ -53,7 +53,7 @@ def getSupplierById(sid):
 
 
 # Get resources that supplier with id {id} provides
-@app.route('/DSLR/suppliers/<int:sid>/resources', methods=['GET'])
+@app.route('/DSRL/suppliers/<int:sid>/resources', methods=['GET'])
 def getResourcesBySupplierId(sid):
     if request.method == 'GET':
         return SupplierHandler().getResourcesBySupplierId(sid)
@@ -68,7 +68,7 @@ def getResourcesBySupplierId(sid):
 # Post order in Order table
 
 
-@app.route('/DSLR/consumer', methods=['GET', 'POST'])
+@app.route('/DSRL/consumer', methods=['GET', 'POST'])
 def getAllConsumers():
     if request.method == 'GET':
         if request.args:
@@ -81,7 +81,7 @@ def getAllConsumers():
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/consumer/<int:cid>', methods=['GET'])
+@app.route('/DSRL/consumer/<int:cid>', methods=['GET'])
 def getConsumerById(cid):
     if request.method == 'GET':
         return ConsumerHandler().getConsumerById(cid)
@@ -89,7 +89,7 @@ def getConsumerById(cid):
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/consumer/<int:cid>/orders', methods=['GET'])
+@app.route('/DSRL/consumer/<int:cid>/orders', methods=['GET'])
 def getOrdersByConsumerId(cid):
     if request.method == 'GET':
         return ConsumerHandler().getOrdersByConsumerId(cid)
@@ -116,7 +116,7 @@ def getOrdersByConsumerId(cid):
 
 ################################# Admin ####################################################
 
-@app.route('/DSLR/administrators', methods=['GET', 'POST'])
+@app.route('/DSRL/administrators', methods=['GET', 'POST'])
 def getAllAdministratorsrs():
     if request.method == 'GET':
         if request.args:
@@ -128,7 +128,7 @@ def getAllAdministratorsrs():
     else:
         return jsonify(Error="Method not allowed"), 405
 
-@app.route('/DSLR/administrators/<int:sid>', methods=['GET'])
+@app.route('/DSRL/administrators/<int:sid>', methods=['GET'])
 def getAdministratorById(sid):
     if request.method == 'GET':
         return AdministratorHandler().getAdministratorById(sid)
@@ -137,7 +137,7 @@ def getAdministratorById(sid):
 
 
 ##################  Resources  #########################################
-@app.route('/DSLR/resources', methods=['GET'])
+@app.route('/DSRL/resources', methods=['GET'])
 def getAllResources():
     if request.method == 'GET':
         if request.args:
@@ -150,7 +150,7 @@ def getAllResources():
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/resources/<int:rid>', methods=['GET']) #TODO post(?)
+@app.route('/DSRL/resources/<int:rid>', methods=['GET'])
 def getResourceById(rid):
     if request.method == 'GET':
         return ResourceHandler().getResourceById(rid)
@@ -158,7 +158,7 @@ def getResourceById(rid):
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/resources/suppliers/<int:sid>', methods=['GET']) #TODO post(?)
+@app.route('/DSRL/resources/suppliers/<int:sid>', methods=['GET']) 
 def getResourceBySupplierId(sid):
     if request.method == 'GET':
         return ResourceHandler().getResourceBySupplierId(sid)
@@ -167,7 +167,7 @@ def getResourceBySupplierId(sid):
 
 
 ############################### Orders  ##########################################
-@app.route('/DSLR/orders', methods=['GET'])
+@app.route('/DSRL/orders', methods=['GET'])
 def getAllOrders():
     if request.method == 'GET':
         if request.args:
@@ -178,7 +178,7 @@ def getAllOrders():
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/orders/<int:oid>', methods=['GET'])
+@app.route('/DSRL/orders/<int:oid>', methods=['GET'])
 def getOrderById(oid):
     if request.method == 'GET':
         return OrdersHandler().getOrderById(oid)
@@ -186,7 +186,7 @@ def getOrderById(oid):
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSLR/orders/consumer/<int:cid>', methods=['GET'])
+@app.route('/DSRL/orders/consumer/<int:cid>', methods=['GET'])
 def getOrderByConsumerId(cid):
     if request.method == 'GET':
         return ConsumerHandler().getOrdersByConsumerId(cid)
