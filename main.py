@@ -97,23 +97,6 @@ def getOrdersByConsumerId(cid):
         return jsonify(Error="Method not allowed"), 405
 
 
-#
-# @app.route('/DSLR/consumers/request', methods=['POST'])
-# def makeRequestForResource():
-#     if request.method == "POST":
-#         return ConsumerHandler.makeRequestForResources(request.form)
-#     else:
-#         return jsonify(Error="Method not allowed")
-#
-#
-# @app.route('/DSLR/consumers/reservation', methods=['POST'])
-# def makeReservationForResource():
-#     if request.method == "POST":
-#         return ConsumerHandler.makeReservationForResources(request.form)
-#     else:
-#         return jsonify(Error="Method not allowed")
-
-
 ################################# Admin ####################################################
 
 @app.route('/DSRL/administrators', methods=['GET', 'POST'])
@@ -194,8 +177,6 @@ def getOrderByConsumerId(cid):
         return jsonify(Error="Method not allowed"), 405
 
 
-# def getOrdersByType(otype):
-#     return 0
 
 
 if __name__ == '__main__':
