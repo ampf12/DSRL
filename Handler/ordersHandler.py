@@ -7,18 +7,18 @@ class OrdersHandler:
 
     def build_orders_dict(self, row):
         result = {}
-        result['oid'] = row[0]
-        result['otype'] = row[1]
-        result['oquantity'] = row[2]
-        result['cid'] = row[3]
+        result['Order ID'] = row[0]
+        result['Type'] = row[1]
+        result['Quantity'] = row[2]
+        result['Consumer ID'] = row[3]
         return result
 
     def build_consumer_dict(self, row):
         result = {}
-        result['cid'] = row[0]
-        result['cfirst_name'] = row[1]
-        result['clast_name'] = row[2]
-        result['cphone'] = row[3]
+        result['Consumer ID'] = row[0]
+        result['First Name'] = row[1]
+        result['Last Name'] = row[2]
+        result['Phone Number'] = row[3]
         return result
 
     def getAllOrders(self):

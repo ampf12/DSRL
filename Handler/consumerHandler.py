@@ -5,23 +5,23 @@ from DAO.consumerDao import ConsumerDAO
 class ConsumerHandler:
     def build_consumer_dict(self, row):
         result = {}
-        result['pid'] = row[0]
-        result['cid'] = row[1]
-        result['cfirst_name'] = row[2]
-        result['clast_name'] = row[3]
-        result['cphone'] = row[4]
+        result['Person ID'] = row[0]
+        result['Consumer ID'] = row[1]
+        result['First Name'] = row[2]
+        result['Last Name'] = row[3]
+        result['Phone Number'] = row[4]
         return result
 
     def build_orders_dict(self, row):
         result = {}
-        result['pid'] = row[0]
-        result['cid'] = row[1]
-        result['oid'] = row[2]
-        result['otyper'] = row[3]
-        result['oquantity'] = row[4]
-        result['pfirst_name'] = row[5]
-        result['plast_name'] = row[6]
-        result['pphone_number'] = row[7]
+        result['Person ID'] = row[0]
+        result['Consumer ID'] = row[1]
+        result['Order ID'] = row[2]
+        result['Type'] = row[3]
+        result['Quantity'] = row[4]
+        result['First Name'] = row[5]
+        result['Last Name'] = row[6]
+        result['Phone Number'] = row[7]
         return result
 
     def getAllConsumers(self):
