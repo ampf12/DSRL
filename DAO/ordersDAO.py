@@ -41,13 +41,5 @@ class OrdersDAO:
     #         result.append(row)
     #     return result
 
-    def getOrderByType(self, otype):
-        # Build query returning orders with given type
-        cursor = self.conn.cursor()
-        query = "select * from Orders where otype = %s;" % otype
-        cursor.execute(query)
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
+
 
