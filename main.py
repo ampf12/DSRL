@@ -216,6 +216,49 @@ def getOrderByConsumerId(cid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+################################# REQUESTS ######################################
+
+@app.route('/DSRL/reservations', methods=['GET'])
+def getAllReservetaions():
+    if request.method == 'GET':
+        if request.args:
+            return OrdersHandler().searchOrders(request.args)
+        else:
+            return OrdersHandler().getAllReservations()
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
+@app.route('/DSRL/reservations/<int:rqid>', methods=['GET'])
+def getReservationtById(rqid):
+    if request.method == 'GET':
+        return OrdersHandler().getReservationById(rqid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSRL/reservations/keyword/<string:keyword>', methods=['GET'])
+def getReservationsByKeyword(keyword):
+    if request.method == 'GET':
+        return OrdersHandler().getReservationsByKeyword(keyword)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSRL/reservations/<string:type>', methods=['GET'])
+def getReservationByType(type):
+    if request.method == 'GET':
+        return OrdersHandler().getReservationsByType(type)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
+@app.route('/DSRL/reservations/consumer/<int:cid>', methods=['GET'])
+def getReservationByConsumerId(cid):
+    if request.method == 'GET':
+        return OrdersHandler().getReservationsByConsumerId(cid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
 
 
 

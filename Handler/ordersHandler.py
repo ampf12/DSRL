@@ -22,6 +22,23 @@ class OrdersHandler:
         result['Type'] = row[13]
         return result
 
+    def build_reservation_dict(self, row):
+        result = {}
+        result['Person ID'] = row[1]
+        result['Consumer ID'] = row[2]
+        result['Reservation ID'] = row[3]
+        #result['Payment Method'] = row[4]
+        # result['Resource ID'] = row[0]
+        result['First Name'] = row[5]
+        result['Last Name'] = row[6]
+        result['Phone Number'] = row[7]
+        result['Quantity'] = row[8]
+        #result['Price'] = row[9]
+        # result['Latitude'] = row[10]
+        # result['Longitude'] = row[11]
+        result['Type'] = row[13]
+        return result
+
     def build_consumer_dict(self, row):
         result = {}
         result['Consumer ID'] = row[0]
@@ -42,7 +59,6 @@ class OrdersHandler:
         return jsonify(Orders=result_list)
 
     def getOrderById(self, oid):
-        # Returns the supplier based on the sid provided
         dao = OrdersDAO()
         orders_list = dao.getOrderByID(oid)
         result_list = []
@@ -51,14 +67,6 @@ class OrdersHandler:
             result_list.append(result)
         return jsonify(Orders=result_list)
 
-    # def getOrdersByConsumerId(self, cid):
-    #     dao = OrdersDAO()
-    #     orders_list = dao.getOrderByConsumerId(cid)
-    #     result_list = []
-    #     for row in orders_list:
-    #         result = self.build_consumer_dict(row)
-    #         result_list.append(result)
-    #     return jsonify(Orders=result_list)
 
     def getOrdersByKeyword(self, otype):
         dao = OrdersDAO()
@@ -77,6 +85,55 @@ class OrdersHandler:
             result = self.build_orders_dict(row)
             result_list.append(result)
         return jsonify(Orders=result_list)
+
+
+########################## REQUESTS #######################################
+    def getAllReservations(self):
+        dao = OrdersDAO()
+        orders_list = dao.getAllReservations()
+        result_list = []
+        for row in orders_list:
+            result = self.build_reservation_dict(row)
+            result_list.append(result)
+        return jsonify(Reservations=result_list)
+
+    def getReservationById(self, oid):
+        dao = OrdersDAO()
+        orders_list = dao.getReservationByID(oid)
+        result_list = []
+        for row in orders_list:
+            result = self.build_reservation_dict(row)
+            result_list.append(result)
+        return jsonify(Reservation=result_list)
+
+
+    def getReservationsByKeyword(self, rqtype):
+        dao = OrdersDAO()
+        orders_list = dao.getReservationByKeyword(rqtype)
+        result_list = []
+        for row in orders_list:
+            result = self.build_reservation_dict(row)
+            result_list.append(result)
+        return jsonify(Reservation=result_list)
+
+    def getReservationsByType(self, type):
+        dao = OrdersDAO()
+        orders_list = dao.getReservationByType(type)
+        result_list = []
+        for row in orders_list:
+            result = self.build_reservation_dict(row)
+            result_list.append(result)
+        return jsonify(Reservations=result_list)
+
+    def getReservationsByConsumerId(self, cid):
+        dao = OrdersDAO()
+        orders_list = dao.getReservationsByConsumerId(cid)
+        result_list = []
+        for row in orders_list:
+            result = self.build_reservation_dict(row)
+            result_list.append(result)
+        return jsonify(Reservations=result_list)
+
 
     #############################################################
     def searchOrders(self, args):
