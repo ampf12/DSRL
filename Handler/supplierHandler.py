@@ -15,12 +15,14 @@ class SupplierHandler:
 
     def build_resource_dict(self, row):
         result = {}
-        result['rid'] = row[0]
-        result['ptype'] = row[2]
-        result['pquantity'] = row[1]
-        result['pprice'] = row[3]
-        result['platitude'] = row[4]
-        result['plongitude'] = row[5]
+        result['Resource ID'] = row[0]
+        result['Type ID'] = row[1]
+        result['Resource'] = row[2]
+        result['Quantity'] = row[3]
+        result['Price'] = row[4]
+        result['Latitude'] = row[5]
+        result['Longitude'] = row[6]
+        result['Google Map Location'] = 'https://www.google.com/maps/search/%s,%s' % (row[5], row[6])
         return result
 
     def getAllSuppliers(self):
