@@ -132,6 +132,18 @@ def getAllResources():
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route('/DSRL/resources/<string:rtype>', methods=['GET'])
+def getAllSpecificResources(rtype):
+    if request.method == 'GET':
+        if request.args:
+            return ResourceHandler().searchResource(request.args)
+        else:
+            return ResourceHandler().getAllSpecificResources(rtype)
+    elif request.method == 'POST':
+        return ResourceHandler().insertResource(request.form)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/DSRL/resources/<int:rid>', methods=['GET'])
 def getResourceById(rid):
@@ -140,11 +152,25 @@ def getResourceById(rid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route('/DSRL/resources/<string:rtype>/<int:rid>', methods=['GET'])
+def getSpecificResourceById(rid,rtype):
+    if request.method == 'GET':
+        return ResourceHandler().getSpecificResourceById(rid,rtype)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/DSRL/resources/suppliers/<int:sid>', methods=['GET']) 
 def getResourceBySupplierId(sid):
     if request.method == 'GET':
         return ResourceHandler().getResourceBySupplierId(sid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSRL/resources/keyword/<string:keyword>', methods=['GET'])
+def getResourceByKeyword(keyword):
+    if request.method == 'GET':
+        return ResourceHandler().getResourceByKeyword(keyword)
     else:
         return jsonify(Error="Method not allowed"), 405
 

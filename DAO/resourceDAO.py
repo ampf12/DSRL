@@ -15,7 +15,18 @@ class ResourceDAO:
         # Build query for selecting all resources
         # return jsonify("A list of all resources is returned")
         cursor = self.conn.cursor()
-        query = "select * from Resources;"
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from table1 natural inner join Resources;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAllSpecificResources(self, rtype):
+        # Build query for selecting all resources
+        # return jsonify("A list of all resources is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Resources natural inner join %s;" %(rtype)
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -26,7 +37,18 @@ class ResourceDAO:
         # Build a query to select a resource by its id
         # return jsonify("A resource with a given ID is returned")
         cursor = self.conn.cursor()
-        query = "select * from Resources where Resources.rid = %s;" % (rid)
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from table1 natural inner join Resources where rid=%s;" %(rid)
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getSpecificResourceByID(self, rid,rtype):
+        # Build a query to select a resource by its id
+        # return jsonify("A resource with a given ID is returned")
+        cursor = self.conn.cursor()
+        query = "select * from Resources natural inner join %s where tid = %s;" % (rtype,rid)
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -38,6 +60,16 @@ class ResourceDAO:
         # return jsonify("A list of resources for the supplier with given ID is returned")
         cursor = self.conn.cursor()
         query = "select * from Resources natural inner join Supplier where Supplier.sid = %s;" % (sid)
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    def getResourceByKeyword(self,Keyword):
+        # Build query for selecting all resources
+        # return jsonify("A list of all resources is returned")
+        cursor = self.conn.cursor()
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from table1 natural inner join Resources where type = '%s';" % (Keyword)
         cursor.execute(query)
         result = []
         for row in cursor:
