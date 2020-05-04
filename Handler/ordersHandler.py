@@ -7,10 +7,19 @@ class OrdersHandler:
 
     def build_orders_dict(self, row):
         result = {}
-        result['Order ID'] = row[0]
-        result['Resource ID'] = row[1]
+        result['Person ID'] = row[1]
         result['Consumer ID'] = row[2]
-        result['Quantity'] = row[3]
+        result['Order ID'] = row[3]
+        result['Payment Method'] = row[4]
+        # result['Resource ID'] = row[0]
+        result['First Name'] = row[5]
+        result['Last Name'] = row[6]
+        result['Phone Number'] = row[7]
+        result['Quantity'] = row[8]
+        result['Price'] = row[9]
+        # result['Latitude'] = row[10]
+        # result['Longitude'] = row[11]
+        result['Type'] = row[13]
         return result
 
     def build_consumer_dict(self, row):
@@ -51,9 +60,18 @@ class OrdersHandler:
     #         result_list.append(result)
     #     return jsonify(Orders=result_list)
 
-    def getOrdersByType(self, otype):
+    def getOrdersByKeyword(self, otype):
         dao = OrdersDAO()
-        orders_list = dao.getOrderByType(otype)
+        orders_list = dao.getOrderByKeyword(otype)
+        result_list = []
+        for row in orders_list:
+            result = self.build_orders_dict(row)
+            result_list.append(result)
+        return jsonify(Orders=result_list)
+
+    def getOrdersByType(self, type):
+        dao = OrdersDAO()
+        orders_list = dao.getOrderByType(type)
         result_list = []
         for row in orders_list:
             result = self.build_orders_dict(row)

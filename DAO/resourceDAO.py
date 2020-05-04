@@ -26,7 +26,7 @@ class ResourceDAO:
         # Build query for selecting all resources
         # return jsonify("A list of all resources is returned")
         cursor = self.conn.cursor()
-        query = "select * from Resources natural inner join %s;" %(rtype)
+        query = "select * from Resources natural inner join %s order by type;" %(rtype)
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -69,7 +69,7 @@ class ResourceDAO:
         # Build query for selecting all resources
         # return jsonify("A list of all resources is returned")
         cursor = self.conn.cursor()
-        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from table1 natural inner join Resources where type = '%s';" % (Keyword)
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from table1 natural inner join Resources where type ~ '%s';" % (Keyword)
         cursor.execute(query)
         result = []
         for row in cursor:

@@ -14,14 +14,20 @@ class ConsumerHandler:
 
     def build_orders_dict(self, row):
         result = {}
-        result['Person ID'] = row[0]
-        result['Consumer ID'] = row[1]
-        result['Order ID'] = row[2]
-        result['Type'] = row[3]
-        result['Quantity'] = row[4]
+        result['Person ID'] = row[1]
+        result['Consumer ID'] = row[2]
+        result['Order ID'] = row[3]
+        result['Payment Method'] = row[4]
+        #result['Resource ID'] = row[0]
         result['First Name'] = row[5]
         result['Last Name'] = row[6]
         result['Phone Number'] = row[7]
+        result['Quantity'] = row[8]
+        result['Price'] = row[9]
+        #result['Latitude'] = row[10]
+        #result['Longitude'] = row[11]
+        result['Type'] = row[13]
+
         return result
 
     def getAllConsumers(self):

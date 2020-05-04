@@ -194,6 +194,20 @@ def getOrderById(oid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route('/DSRL/orders/keyword/<string:keyword>', methods=['GET'])
+def getOrderByKeyword(keyword):
+    if request.method == 'GET':
+        return OrdersHandler().getOrdersByKeyword(keyword)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSRL/orders/<string:type>', methods=['GET'])
+def getOrderByType(type):
+    if request.method == 'GET':
+        return OrdersHandler().getOrdersByType(type)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/DSRL/orders/consumer/<int:cid>', methods=['GET'])
 def getOrderByConsumerId(cid):

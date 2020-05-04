@@ -13,6 +13,7 @@ class ResourceHandler:
         result['Price'] = row[4]
         result['Latitude'] = row[5]
         result['Longitude'] = row[6]
+        result['Google Map Location'] =  'https://www.google.com/maps/search/%s,%s'%(row[5],row[6])
         return result
 
     def build_specificResource_dic(self, row):
@@ -24,6 +25,7 @@ class ResourceHandler:
         result['Longitude'] = row[4]
         result['Type ID'] = row[5]
         result['Resource'] = row[6]
+        result['Google Map Location'] ='https://www.google.com/maps/search/%s,%s'%(row[3],row[4])
         return result
 
     def getAllResources(self):
@@ -84,7 +86,7 @@ class ResourceHandler:
         resources_list = dao.getResourceByKeyword(Keyword)
         result_list = []
         for row in resources_list:
-            result = self.build_specificResource_dic(row)
+            result = self.build_resource_dic(row)
             result_list.append(result)
         return jsonify(Resource=result_list)
 

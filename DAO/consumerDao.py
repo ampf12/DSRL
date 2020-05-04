@@ -35,8 +35,7 @@ class ConsumerDAO:
     def getOrdersByConsumerId(self, cid):
         # Create query to select the orders plaaced by a consumer with given id
         cursor = self.conn.cursor()
-        query = "select * from Orders natural inner join Consumer natural inner join Person " \
-                "where Consumer.cid = %s;" % cid
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where Consumer.cid = %s" %(cid)
         cursor.execute(query)
         result = []
         for row in cursor:
