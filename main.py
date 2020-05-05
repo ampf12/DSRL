@@ -8,6 +8,7 @@ from Handler.consumerHandler import ConsumerHandler
 from Handler.ordersHandler import OrdersHandler
 from Handler.resourceHandler import ResourceHandler
 from Handler.supplierHandler import SupplierHandler
+from Handler.requestHandler import RequestHandler
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -160,7 +161,7 @@ def getSpecificResourceById(rid,rtype):
         return jsonify(Error="Method not allowed"), 405
 
 
-@app.route('/DSRL/resources/suppliers/<int:sid>', methods=['GET']) 
+@app.route('/DSRL/resources/suppliers/<int:sid>', methods=['GET'])
 def getResourceBySupplierId(sid):
     if request.method == 'GET':
         return ResourceHandler().getResourceBySupplierId(sid)
@@ -216,7 +217,7 @@ def getOrderByConsumerId(cid):
     else:
         return jsonify(Error="Method not allowed"), 405
 
-################################# REQUESTS ######################################
+################################# RESERVATIONS ######################################
 
 @app.route('/DSRL/reservations', methods=['GET'])
 def getAllReservetaions():
@@ -259,6 +260,46 @@ def getReservationByConsumerId(cid):
         return jsonify(Error="Method not allowed"), 405
 
 
+############################### REQUESTS  ##########################################
+@app.route('/DSRL/requests', methods=['GET'])
+def getAllRequests():
+    if request.method == 'GET':
+        if request.args:
+            return RequestHandler().searchRequests(request.args)
+        else:
+            return RequestHandler().getAllRequests()
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
+@app.route('/DSRL/requests/<int:rid>', methods=['GET'])
+def getRequestById(rid):
+    if request.method == 'GET':
+        return RequestHandler().getRequestById(rid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSRL/requests/keyword/<string:keyword>', methods=['GET'])
+def getRequestByKeyword(keyword):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByKeyword(keyword)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+@app.route('/DSRL/requests/type/<string:type>', methods=['GET'])
+def getRequestByType(type):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByType(type)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
+
+@app.route('/DSRL/requests/consumer/<int:cid>', methods=['GET'])
+def getRequestByConsumerId(cid):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByConsumerId(cid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
 
 
