@@ -33,7 +33,7 @@ class RequestDAO:
 
     def getRequestByKeyword(self, keyword):
         cursor = self.conn.cursor()
-        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where pmethod = 'NONE' and type ~  '%s' order by type" % (keyword)
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where type ~  '%s' order by type" % (keyword)
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -42,7 +42,7 @@ class RequestDAO:
 
     def getRequestByType(self, type):
         cursor = self.conn.cursor()
-        query = "Select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join %s where pmethod ='NONE';" % (type)
+        query = "Select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join %s " % (type)
         cursor.execute(query)
         result = []
         for row in cursor:
