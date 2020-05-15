@@ -5,10 +5,12 @@ from Config.DbConfig import pg_config
 
 class ResourceDAO:
     def __init__(self):
-        connection_url = "dbname=%s user=%s password=%s host = ec2-52-202-146-43.compute-1.amazonaws.com" % (
-        pg_config['dbname'],
-        pg_config['user'],
-        pg_config['passwd'])
+        connection_url = "dbname=%s user=%s password=%s host = %s" % (
+            pg_config['dbname'],
+            pg_config['user'],
+            pg_config['passwd'],
+            pg_config['host']
+        )
         self.conn = psycopg2._connect(connection_url)
 
     def getAllResources(self):

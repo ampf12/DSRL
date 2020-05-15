@@ -34,6 +34,8 @@ def hello_world():
 # Post new supplier or Get supplier info by  (all, id, name/company)
 @app.route('/DSRL/suppliers', methods=['GET', 'POST'])
 def getAllSuppliers():
+    if request.method == 'POST':
+        return SupplierHandler().insertSupplierJson(request.json)
     if request.method == 'GET':
         if request.args:
             return SupplierHandler().searchSuppliers(request.args)
@@ -71,6 +73,8 @@ def getResourcesBySupplierId(sid):
 
 @app.route('/DSRL/consumer', methods=['GET', 'POST'])
 def getAllConsumers():
+    if request.method == 'POST':
+        return ConsumerHandler().insertConsumerJson(request.json)
     if request.method == 'GET':
         if request.args:
             return ConsumerHandler().searchConsumers(request.args)

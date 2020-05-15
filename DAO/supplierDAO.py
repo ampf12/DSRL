@@ -5,10 +5,12 @@ from Config.DbConfig import pg_config
 class SupplierDAO:
 
     def __init__(self):
-        connection_url = "dbname=%s user=%s password=%s host = ec2-52-202-146-43.compute-1.amazonaws.com" % (
+        connection_url = "dbname=%s user=%s password=%s host = %s" % (
         pg_config['dbname'],
         pg_config['user'],
-        pg_config['passwd'])
+        pg_config['passwd'],
+        pg_config['host']
+       )
         self.conn = psycopg2._connect(connection_url)
 
     def getAllSuppliers(self):
@@ -42,6 +44,16 @@ class SupplierDAO:
             result.append(row)
         return result
 
-    def insert(self, sname, scity, sphone):
+    def insert(self, pfirst_name, plast_name ,scompany_name ,pphone_number):
         # Create query to insert a supplier into the DB
-        return jsonify("Returns the id of the supplier inserted into the DB")
+        cursor = self.conn.cursor()
+        query = "insert into person(pfirst_name, plast_name, pphone_number) values (%s, %s, %s) returning pid;"
+        cursor.execute(query, (pfirst_name, plast_name,pphone_number,))
+        pid1 = cursor.fetchone()[0]
+        cursor1 = self.conn.cursor()
+        query1 = "insert into supplier(scompany_name,pid) values (%s,%s) returning sid;"
+        cursor1.execute(query1, (scompany_name,pid1,))
+        sid = cursor1.fetchone()[0]
+        self.conn.commit()
+        return sid
+

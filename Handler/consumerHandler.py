@@ -11,6 +11,14 @@ class ConsumerHandler:
         result['Last Name'] = row[3]
         result['Phone Number'] = row[4]
         return result
+    def build_consumer_attribute_dict(self, sname, slast_name, sphone_number, cid):
+        result = {}
+        #result['Person ID'] = row[0]
+        result['Consumer ID'] = cid
+        result['First Name'] = sname
+        result['Last Name'] = slast_name
+        result['Phone Number'] = sphone_number
+        return result
 
     def build_orders_dict(self, row):
         result = {}
@@ -68,10 +76,17 @@ class ConsumerHandler:
     def searchConsumers(self, args):
         return "Search by consumer with a specified parameter"
 
-    def insertConsumer(self, form):
-        dao = ConsumerDAO()
-        sid = dao.insertConsumer('sname', 'scity', 'sphone')
-        return sid
+    def insertConsumerJson(self, json):
+        sname = json['sname']
+        slast_name = json['slast_name']
+        sphone_number = json['sphone_number']
+        if sname and slast_name and sphone_number:
+            dao = ConsumerDAO()
+            cid = dao.insert(sname, slast_name, sphone_number)
+            result = self.build_consumer_attribute_dict(sname, slast_name, sphone_number, cid)
+            return jsonify(Consumer=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
 
     @classmethod
     def makeRequestForResources(self, form):

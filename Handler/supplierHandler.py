@@ -1,3 +1,5 @@
+
+
 from flask import jsonify
 from DAO.supplierDAO import SupplierDAO
 
@@ -11,6 +13,16 @@ class SupplierHandler:
         result['Phone'] = row[3]
         result['Person ID'] = row[0]
         result['Company Name'] = row[5]
+        return result
+
+    def build_supplier_attribute_dict(self, sname, slast_name,sphone_number,scompany_name,sid):
+        result = {}
+        result['Supplier ID'] = sid
+        result['First Name'] = sname
+        result['Last Name'] = slast_name
+        result['Phone'] = sphone_number
+       # result['Person ID'] = row[0]
+        result['Company Name'] = scompany_name
         return result
 
     def build_resource_dict(self, row):
@@ -61,7 +73,17 @@ class SupplierHandler:
     def searchSuppliers(self, args):
         return "Search by supplier with a specified parameter"
 
-    def insertSupplier(self, form):
-        dao = SupplierDAO()
-        sid = dao.insert('sname', 'scity', 'sphone')
-        return sid
+    def insertSupplierJson(self, json):
+        sname = json['sname']
+        slast_name = json['slast_name']
+        scompany_name = json['scompany_name']
+        sphone_number = json['sphone_number']
+        if sname and slast_name and scompany_name and sphone_number:
+            dao = SupplierDAO()
+            sid = dao.insert(sname, slast_name ,scompany_name ,sphone_number)
+            result = self.build_supplier_attribute_dict(sname, slast_name,sphone_number,scompany_name,sid)
+            return jsonify(Supplier=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
+
+

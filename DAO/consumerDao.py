@@ -6,10 +6,12 @@ from Config.DbConfig import pg_config
 class ConsumerDAO:
 
     def __init__(self):
-        connection_url = "dbname=%s user=%s password=%s host = ec2-52-202-146-43.compute-1.amazonaws.com" % (
+        connection_url = "dbname=%s user=%s password=%s host = %s" % (
             pg_config['dbname'],
             pg_config['user'],
-            pg_config['passwd'])
+            pg_config['passwd'],
+            pg_config['host']
+        )
         self.conn = psycopg2._connect(connection_url)
 
     def getAllConsumers(self):
@@ -44,8 +46,18 @@ class ConsumerDAO:
 
     ###############################################################################
 
-    def insertConsumer(self, sname, scity, sphone):
-        return jsonify("Returns the id of the consumer inserted into the DB")
+    def insert(self, pfirst_name, plast_name, pphone_number):
+        # Create query to insert a supplier into the DB
+        cursor = self.conn.cursor()
+        query = "insert into person(pfirst_name, plast_name, pphone_number) values (%s, %s, %s) returning pid;"
+        cursor.execute(query, (pfirst_name, plast_name, pphone_number,))
+        pid = cursor.fetchone()[0]
+        cursor1 = self.conn.cursor()
+        query1 = "insert into consumer(pid) values (%s) returning cid;"
+        cursor1.execute(query1, ( pid,))
+        cid = cursor1.fetchone()[0]
+        self.conn.commit()
+        return cid
 
     def insertRequest(self, rid, rtype, rquantity, cid):
         # Create query to insert a request for a resource into the DB
