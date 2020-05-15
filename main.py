@@ -106,6 +106,8 @@ def getOrdersByConsumerId(cid):
 
 @app.route('/DSRL/administrators', methods=['GET', 'POST'])
 def getAllAdministratorsrs():
+    if request.method == 'POST':
+        return AdministratorHandler().insertAdministratorJson(request.json)
     if request.method == 'GET':
         if request.args:
             return AdministratorHandler().getAllAdministrators(request.args)

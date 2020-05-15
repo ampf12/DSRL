@@ -34,14 +34,15 @@ class AdministratorDAO:
             result.append(row)
         return result
 
-    def getAllConsumers(self):
-        #Build query selecting all consumers
-        return jsonify("A list of all consumers is returned")
-
-    def getSupplierByID(self, sid):
-        #Build a query to select a supplier by its id
-        return jsonify("A supplier with a given ID is returned")
-
-    def getConsumerByID(self,cid):
-        #Build a query to select a supplier by its id
-        return jsonify("A consumer with a given ID is returned")
+    def insert(self, pfirst_name, plast_name, pphone_number):
+        # Create query to insert a supplier into the DB
+        cursor = self.conn.cursor()
+        query = "insert into person(pfirst_name, plast_name, pphone_number) values (%s, %s, %s) returning pid;"
+        cursor.execute(query, (pfirst_name, plast_name, pphone_number,))
+        pid = cursor.fetchone()[0]
+        cursor1 = self.conn.cursor()
+        query1 = "insert into administrator(pid) values (%s) returning aid;"
+        cursor1.execute(query1, ( pid,))
+        aid = cursor1.fetchone()[0]
+        self.conn.commit()
+        return aid

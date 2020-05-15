@@ -14,6 +14,14 @@ class AdministratorHandler:
 
         return result
 
+    def build_administrator_attribute_dict(self, aname, alast_name, aphone_number, aid):
+        result = {}
+        result['Administrator ID'] = aid
+        result['First Name'] = aname
+        result['Last Name'] = alast_name
+        result['Phone Number'] = aphone_number
+        return result
+
     def getAllAdministrators(self):
 
         # Creates the list of all suppliers calling the DAO which creates the queary,
@@ -72,20 +80,16 @@ class AdministratorHandler:
     def searchSuppliers(self, args):
         return "Search by supplier with a specified parameter"
 
-    def insertSupplier(self, form):
-        dao = AdministratorDAO()
-        sid = dao.insert('sname', 'scity', 'sphone')
-        return sid
+    def insertAdministratorJson(self, json):
+        aname = json['aname']
+        alast_name = json['alast_name']
+        aphone_number = json['aphone_number']
+        if aname and alast_name and aphone_number:
+            dao = AdministratorDAO()
+            aid = dao.insert(aname, alast_name, aphone_number)
+            result = self.build_administrator_attribute_dict(aname, alast_name, aphone_number, aid)
+            return jsonify(Consumer=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def insertAdministrator(self, form):
-        dao = AdministratorDAO()
-        sid = dao.insert('sname', 'scity', 'sphone')
-        return sid
 
-    def searchConsumers(self, args):
-        return "Search by consumer with a specified parameter"
-
-    def insertConsumer(self, form):
-        dao = AdministratorDAO()
-        sid = dao.insertConsumer('sname', 'scity', 'sphone')
-        return sid
