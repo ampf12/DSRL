@@ -47,7 +47,7 @@ class OrdersDAO:
 
     def getOrderByKeyword(self, keyword):
         cursor = self.conn.cursor()
-        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where not pmethod = 'NONE' and type ~  '%s' order by type" % (keyword)
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where not pmethod = 'NONE' and rtype ~  '%s' order by rtype" % (keyword)
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -98,7 +98,7 @@ class OrdersDAO:
 
     def getReservationByKeyword(self, keyword):
         cursor = self.conn.cursor()
-        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where pmethod = 'NONE' and type ~  '%s' order by type" % (keyword)
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where pmethod = 'NONE' and rtype ~  '%s' order by rtype" % (keyword)
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -118,11 +118,29 @@ class OrdersDAO:
     def getReservationsByConsumerId(self, rqid):
         # Create query to select the orders plaaced by a consumer with given id
         cursor = self.conn.cursor()
-        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where  pmethod = 'NONE' and  Consumer.cid = %s order by type" % (
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Orders natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where  pmethod = 'NONE' and  Consumer.cid = %s order by rtype" % (
             rqid)
         cursor.execute(query)
         result = []
         for row in cursor:
             result.append(row)
         return result
+
+    def insert(self, cid, rid,pmethod):
+        # Create query to insert a supplier into the DB
+        cursor = self.conn.cursor()
+        query = "insert into orders(cid,rid,pmethod) values (%s, %s, %s) returning oid;"
+        cursor.execute(query, (cid,rid,pmethod,))
+        oid = cursor.fetchone()[0]
+        self.conn.commit()
+        return oid
+
+    def insertReservation(self, cid, rid):
+        # Create query to insert a supplier into the DB
+        cursor = self.conn.cursor()
+        query = "insert into orders(cid,rid,pmethod) values (%s, %s, %s) returning oid;"
+        cursor.execute(query, (cid,rid,'NONE',))
+        oid = cursor.fetchone()[0]
+        self.conn.commit()
+        return oid
 

@@ -16,14 +16,14 @@ class ResourceHandler:
         result['Google Map Location'] =  'https://www.google.com/maps/search/%s,%s'%(row[5],row[6])
         return result
 
-    def build_resource_attribute_dict(self, rquantity, rprice, rlatitude, rlongitude, type):
+    def build_resource_attribute_dict(self, rquantity, rprice, rlatitude, rlongitude, type1,rid):
         result = {}
-        #result['Resource ID'] = rid
+        result['Resource ID'] = rid
         result['Resource Quantity'] = rquantity
         result['Resource Price'] = rprice
         result['Resource Latitude'] = rlatitude
         result['Resource Longitude'] = rlongitude
-        result['Resource type'] = type
+        result['Resource type'] = type1
         return result
 
     def build_specificResource_dic(self, row):
@@ -103,16 +103,17 @@ class ResourceHandler:
     def searchResource(self, args):
         return "Search by resource with a specified parameter"
 
-    def insertResourceJson(self, json, rtype, sid):
+    def insertResourceJson(self, json, rtype):
         rquantity = json['rquantity']
         rprice = json['rprice']
         rlatitude = json['rlatitude']
         rlongitude = json['rlongitude']
-        type = json['type']
-        if rquantity and rprice and rlatitude and rlongitude and type:
+        type1 = json['type']
+        sid = json['sid']
+        if rquantity and rprice and rlatitude and rlongitude and type1 and sid:
             dao = ResourceDAO()
-            rid = dao.insertResource(rquantity, rprice, rlatitude, rlongitude, type, rtype, sid)
-            result = self.build_resource_attribute_dict(rquantity, rprice, rlatitude, rlongitude, type, rid)
+            rid = dao.insertResource(rquantity, rprice, rlatitude, rlongitude, type1, rtype, sid)
+            result = self.build_resource_attribute_dict(rquantity, rprice, rlatitude, rlongitude, type1, rid)
             return jsonify(Resource=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400

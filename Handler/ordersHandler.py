@@ -22,6 +22,20 @@ class OrdersHandler:
         result['Type'] = row[13]
         return result
 
+    def build_order_attribute_dict(self,rid,cid,pmethod,oid):
+        result = {}
+        result['Consumer ID'] = cid
+        result['Order ID'] = oid
+        result['Payment Method'] = pmethod
+        result['Resource ID'] = rid
+        return result
+    def build_reservation_attribute_dict(self,rid,cid,oid):
+        result = {}
+        result['Consumer ID'] = cid
+        result['Order ID'] = oid
+        result['Resource ID'] = rid
+        return result
+
     def build_reservation_dict(self, row):
         result = {}
         result['Person ID'] = row[1]
@@ -139,10 +153,28 @@ class OrdersHandler:
     def searchOrders(self, args):
         return "Search by orders with a specified parameter"
 
-    def insertOrders(self, form):
-        dao = OrdersDAO()
-        sid = dao.insert('rtype')
-        return "Orders inserted, return id"
+    def insertOrderJson(self, json):
+        rid = json['rid']
+        cid = json['cid']
+        pmethod = json['pmethod']
+        if rid and cid and pmethod:
+            dao = OrdersDAO()
+            oid = dao.insert(cid,rid,pmethod)
+            result = self.build_order_attribute_dict(rid,cid,pmethod,oid)
+            return jsonify(Order=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
+
+    def insertReservationJson(self, json):
+        rid = json['rid']
+        cid = json['cid']
+        if rid and cid:
+            dao = OrdersDAO()
+            oid = dao.insertReservation(cid,rid)
+            result = self.build_reservation_attribute_dict(rid,cid,oid)
+            return jsonify(Order=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
 
 
 

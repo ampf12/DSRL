@@ -41,8 +41,6 @@ def getAllSuppliers():
             return SupplierHandler().searchSuppliers(request.args)
         else:
             return SupplierHandler().getAllSuppliers()
-    elif request.method == 'POST':
-        return SupplierHandler().insertSupplier(request.form)
     else:
         return jsonify(Error="Method not allowed"), 405
 
@@ -80,8 +78,6 @@ def getAllConsumers():
             return ConsumerHandler().searchConsumers(request.args)
         else:
             return ConsumerHandler().getAllConsumers()
-    elif request.method == 'POST':
-        return ConsumerHandler().insertConsumer(request.form)
     else:
         return jsonify(Error="Method not allowed"), 405
 
@@ -113,8 +109,6 @@ def getAllAdministratorsrs():
             return AdministratorHandler().getAllAdministrators(request.args)
         else:
             return AdministratorHandler().getAllAdministrators()
-    elif request.method == 'POST':
-        return AdministratorHandler().insertAdministrator(request.form)
     else:
         return jsonify(Error="Method not allowed"), 405
 
@@ -181,17 +175,19 @@ def getResourceByKeyword(keyword):
     else:
         return jsonify(Error="Method not allowed"), 405
 
-@app.route('/DSRL/insert/<string:rtype>/<string:sid>', methods=['POST'])
-def insertResource(rtype, sid):
+@app.route('/DSRL/insert/<string:rtype>', methods=['POST'])
+def insertResource(rtype):
     if request.method == 'POST':
-        return ResourceHandler().insertResourceJson(request.json, rtype, sid)
+        return ResourceHandler().insertResourceJson(request.json, rtype)
     else:
         return jsonify(Error="Method not allowed"), 405
 
 
 ############################### Orders  ##########################################
-@app.route('/DSRL/orders', methods=['GET'])
+@app.route('/DSRL/orders', methods=['GET','POST'])
 def getAllOrders():
+    if request.method == 'POST':
+        return OrdersHandler().insertOrderJson(request.json)
     if request.method == 'GET':
         if request.args:
             return OrdersHandler().searchOrders(request.args)
@@ -232,8 +228,10 @@ def getOrderByConsumerId(cid):
 
 ################################# RESERVATIONS ######################################
 
-@app.route('/DSRL/reservations', methods=['GET'])
+@app.route('/DSRL/reservations', methods=['GET','POST'])
 def getAllReservetaions():
+    if request.method == 'POST':
+        return OrdersHandler().insertReservationJson(request.json)
     if request.method == 'GET':
         if request.args:
             return OrdersHandler().searchOrders(request.args)
