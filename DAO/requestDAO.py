@@ -61,3 +61,9 @@ class RequestDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def insertRequests(self, cid, rid):
+        cursor = self.conn.cursor()
+        query = "insert into request(cid, rid) values (%s, %s);"
+        cursor.execute(query, (cid, rid,))
+        self.conn.commit()

@@ -272,13 +272,15 @@ def getReservationByConsumerId(cid):
 
 
 ############################### REQUESTS  ##########################################
-@app.route('/DSRL/requests', methods=['GET'])
+@app.route('/DSRL/requests', methods=['GET', 'POST'])
 def getAllRequests():
     if request.method == 'GET':
         if request.args:
             return RequestHandler().searchRequests(request.args)
         else:
             return RequestHandler().getAllRequests()
+    elif request.method == 'POST':
+        return RequestHandler().insertRequests(request.json)
     else:
         return jsonify(Error="Method not allowed"), 405
 

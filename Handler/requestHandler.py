@@ -22,6 +22,13 @@ class RequestHandler:
         result['Resource'] = row[12]
         return result
 
+    def build_request_attribute_dict(self, cid, rid):
+        result = {}
+        #result['Request ID'] = rqid
+        result['Consumer ID'] = cid
+        result['Resource ID'] = rid
+        return result
+
     def getAllRequests(self):
         # Creates the list of all orders calling the DAO which creates the query,
         # this returns a list. This list is then jsonified to be used as a response.
@@ -76,7 +83,14 @@ class RequestHandler:
     def searchRequests(self, args):
         return "Search by requests with a specified parameter"
 
-    def insertRequests(self, form):
-        dao = RequestDAO()
-        rid = dao.insert('rtype')
-        return "Requests inserted, return id"
+    def insertRequests(self, json):
+        #rqid = json['rqid']
+        cid = json['cid']
+        rid = json['rid']
+        if cid and rid:
+            dao = RequestDAO()
+            dao.insertRequests(cid, rid)
+            result = self.build_request_attribute_dict(cid, rid)
+            return jsonify(Requests=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400
