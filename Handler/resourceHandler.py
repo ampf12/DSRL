@@ -16,6 +16,16 @@ class ResourceHandler:
         result['Google Map Location'] =  'https://www.google.com/maps/search/%s,%s'%(row[5],row[6])
         return result
 
+    def build_resource_attribute_dict(self, rquantity, rprice, rlatitude, rlongitude, type):
+        result = {}
+        #result['Resource ID'] = rid
+        result['Resource Quantity'] = rquantity
+        result['Resource Price'] = rprice
+        result['Resource Latitude'] = rlatitude
+        result['Resource Longitude'] = rlongitude
+        result['Resource type'] = type
+        return result
+
     def build_specificResource_dic(self, row):
         result = {}
         result['Resource ID'] = row[0]
@@ -93,7 +103,16 @@ class ResourceHandler:
     def searchResource(self, args):
         return "Search by resource with a specified parameter"
 
-    def insertResource(self, form):
-        dao = ResourceDAO()
-        rid = dao.insert('rtype')
-        return "Insertion of Resource (?)"
+    def insertResourceJson(self, json, rtype, sid):
+        rquantity = json['rquantity']
+        rprice = json['rprice']
+        rlatitude = json['rlatitude']
+        rlongitude = json['rlongitude']
+        type = json['type']
+        if rquantity and rprice and rlatitude and rlongitude and type:
+            dao = ResourceDAO()
+            rid = dao.insertResource(rquantity, rprice, rlatitude, rlongitude, type, rtype, sid)
+            result = self.build_resource_attribute_dict(rquantity, rprice, rlatitude, rlongitude, type, rid)
+            return jsonify(Resource=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in post request"), 400

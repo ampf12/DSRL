@@ -181,6 +181,13 @@ def getResourceByKeyword(keyword):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+@app.route('/DSRL/insert/<string:rtype>/<string:sid>', methods=['POST'])
+def insertResource(rtype, sid):
+    if request.method == 'POST':
+        return ResourceHandler().insertResourceJson(request.json, rtype, sid)
+    else:
+        return jsonify(Error="Method not allowed"), 405
+
 
 ############################### Orders  ##########################################
 @app.route('/DSRL/orders', methods=['GET'])

@@ -67,6 +67,7 @@ class ResourceDAO:
         for row in cursor:
             result.append(row)
         return result
+
     def getResourceByKeyword(self,Keyword):
         # Build query for selecting all resources
         # return jsonify("A list of all resources is returned")
@@ -77,3 +78,23 @@ class ResourceDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    ###############################################################################
+
+    def insertResource(self, rquantity, rprice, rlatitude, rlongitude, type, rtype, sid):
+        # Create query to insert a specific resource into the DB
+        cursor1 = self.conn.cursor()
+        query1 = "insert into resources(rquantity, rprice, rlatitude, rlongitude) values(%s, %s, %s, %s) returning rid;"
+        cursor1.execute(query1, (rquantity, rprice, rlatitude, rlongitude,))
+        rid = cursor1.fetchone()[0]
+
+        cursor2 = self.conn.cursor()
+        query2 = "insert into %s(type, rid) values(%s, %s) returning tid;"
+        cursor2.execute(query2, (rtype, type, rid,))
+        tid = cursor2.fetchone()[0]
+
+        cursor3 = self.conn.cursor()
+        query3 = "insert into supplies(sid, rid) values(%s, %s);"
+        cursor3.execute(query3, (sid, rid,))
+        self.conn.commit()
+        return tid
