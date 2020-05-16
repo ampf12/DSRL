@@ -35,16 +35,16 @@ class RequestDAO:
 
     def getRequestByKeyword(self, keyword):
         cursor = self.conn.cursor()
-        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where type ~  '%s' order by type" % (keyword)
+        query = "with table1 as (Select * from water union Select * from babyfood union Select * from clothing union Select * from batteries union Select * from cannedfood union Select * from dryfood union Select * from fuel union Select * from heavyequipment union Select * from ice union Select * from medicaldevices union Select * from medications union Select * from powergenerator union Select * from tools)select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join table1 where rtype ~  '%s' order by rtype" % (keyword)
         cursor.execute(query)
         result = []
         for row in cursor:
             result.append(row)
         return result
 
-    def getRequestByType(self, type):
+    def getRequestByType(self, rtype):
         cursor = self.conn.cursor()
-        query = "Select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join %s " % (type)
+        query = "Select * from Request natural inner join Consumer natural inner join Person natural inner join Resources natural inner join %s " % (rtype)
         cursor.execute(query)
         result = []
         for row in cursor:
